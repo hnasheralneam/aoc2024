@@ -22,11 +22,6 @@ def parse_mul_strings(section):
         parse_mul_call(ul_string)
 
 def parse_sections(line):
-
-    s = "This is a test don't()and this is another test don't()final part"
-    result = s.split("don't()")
-    print(result)
-
     enabled = []
     parts = line.split("don't()")
     
