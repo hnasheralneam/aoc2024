@@ -2,7 +2,8 @@ import re
 
 answer = 0
 mul_strings = []
-sections = []
+enabled = []
+line = ""
 
 def parse_mul_call(mul_call_string):
     global answer
@@ -11,33 +12,23 @@ def parse_mul_call(mul_call_string):
     numbers_string_array = numbers_string.split(",")
     answer += int(numbers_string_array[0]) * int(numbers_string_array[1])
 
-def parse_mul_strings(section):
-    global mul_strings
-    for section in sections:
-        if not ("don't" in section):
-            parse_mul_strings(section)
-
-    mul_strings += re.findall("mul\([0123456789]*,[0123456789]*\)", section)
+def parse_mul_strings(line):
+    mul_strings = re.findall(r"mul\([0123456789]*,[0123456789]*\)", line)
     for mul_string in mul_strings:
-        parse_mul_call(ul_string)
+        parse_mul_call(mul_string)
 
-def parse_sections(line):
+def parse(line):
+    parts = re.split(r"do(?:n't)?\(\)", line)
+    for i in range(0, len(parts)):
+        if i % 2 == 0:
+            enabled.append(parts[i])
 
-    s = "This is a test don't()and this is another test don't()final part"
-    result = s.split("don't()")
-    print(result)
 
-    enabled = []
-    parts = line.split("don't()")
-    
-    for part in parts:
-        print(part)
-        print("\n\n")
-    
+f = open("day3/input.txt", "r")
+line = line.join(f)
+parse(line)
 
-#
-f = open("input.txt", "r")
-for line in f:
-    parse_sections(line)
+for section in enabled:
+    parse_mul_strings(section)
 
 print(answer)

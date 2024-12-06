@@ -10,11 +10,11 @@ def parse_mul_call(mul_call_string):
     answer += int(numbers_string_array[0]) * int(numbers_string_array[1])
 
 def parse_mul_strings(line):
-    mul_strings = re.findall("mul\([0123456789]*,[0123456789]*\)", line)
+    mul_strings = re.findall(r"mul\([0123456789]*,[0123456789]*\)", line)
     for mul_string in mul_strings:
         parse_mul_call(mul_string)
 
-f = open("input.txt", "r")
+f = open("day3/input.txt", "r")
 for line in f:
     parse_mul_strings(line)
 

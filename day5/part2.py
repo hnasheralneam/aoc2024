@@ -3,7 +3,6 @@ import math
 sum = 0
 rules = []
 updates = []
-correct_updates = []
 incorrect_updates = []
 
 def get_middle_number(arr):
@@ -48,10 +47,8 @@ parse_rules()
 parse_updates()
 
 for update in updates:
-    if rule_followed(update):
-        correct_updates.append(update)
-    else:
-        incorrect_updates.append(update)
+    if not rule_followed(update):
+       incorrect_updates.append(update)
 
 for update in incorrect_updates:
     current_update = update
