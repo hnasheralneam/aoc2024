@@ -1,17 +1,21 @@
 count = 0
 letters = []
 
-def isCenter(row, col, char):
+def charPositionWorks(row, col, char):
     if (col - 1 >= 0) and (col + 1 < len(letters[row])) and (row - 1 >= 0) and (row + 1 < len(letters)):
+        if (letters[row - 1][col - 1] == char) and (letters[row - 1][col + 1] == char):
+            return True
         if (letters[row - 1][col - 1] == char) and (letters[row + 1][col - 1] == char):
             return True
-        if (letters[row + 1][col + 1] == char) and (letters[row - 1][col + 1] == char):
+        if (letters[row - 1][col + 1] == char) and (letters[row + 1][col + 1] == char):
+            return True
+        if (letters[row + 1][col - 1] == char) and (letters[row + 1][col + 1] == char):
             return True
     return False
 
 def checkForXedMases(row, col):
     global count
-    if isCenter(row, col):
+    if charPositionWorks(row, col, "m") and charPositionWorks(row, col, "s"):
         count += 1
 
 with open("input.txt", "r") as f:
