@@ -4,25 +4,27 @@ trails = 0
 
 def get_valid_neighbors(pos, num):
     valid_neighbors = []
-    if pos[0] - 1 > 0 and map[pos[0] - 1][pos[1]] == num:
-        valid_neighbors.append(map[pos[0] - 1][pos[1]])
+    if pos[0] > 0 and map[pos[0] - 1][pos[1]] == num:
+        valid_neighbors.append([pos[0] - 1, pos[1]])
     if pos[0] + 1 < len(map) and map[pos[0] + 1][pos[1]] == num:
-        valid_neighbors.append(map[pos[0] + 1][pos[1]])
-    if pos[1] - 1 > 0 and map[pos[0]][pos[1] - 1] == num:
-        valid_neighbors.append(map[pos[0]][pos[1] - 1])
+        valid_neighbors.append([pos[0] + 1, pos[1]])
+    if pos[1] > 0 and map[pos[0]][pos[1] - 1] == num:
+        valid_neighbors.append([pos[0], pos[1] - 1])
     if pos[1] + 1 < len(map) and map[pos[0]][pos[1] + 1] == num:
-        valid_neighbors.append(map[pos[0]][pos[1] + 1])
+        valid_neighbors.append([pos[0], pos[1] + 1])
+
     return valid_neighbors
 
 def find_next(pos, num):
-    print(num)
+    global trails
+
     target = num + 1
-    print(target)
     if target == 10:
-        trails += 1
-        return
+        return 1
+    sum = 0
     for neighbor in get_valid_neighbors(pos, target):
-        find_next(neighbor, target)
+        sum += find_next(neighbor, target)
+    return sum
 
 with open("day10/input.txt", "r") as f:
     row = 0
@@ -32,14 +34,16 @@ with open("day10/input.txt", "r") as f:
         while col < len(line):
             char = line[col]
             if char != "\n":
-                chars.append(char)
+                chars.append(int(char))
             if char == "0":
                 zeros.append([row, col])
             col += 1
         map.append(chars)
         row += 1
 
+sum = 0
 for zero in zeros:
-    find_next(zero, 0)
+    trails_from_head = find_next(zero, 0)
+    sum += trails_from_head
 
-print(trails)
+print(sum)
