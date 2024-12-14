@@ -1,9 +1,13 @@
 sum = 0
 
+def meld_numbers(one, two):
+    return int(str(one) + str(two))
+
 def recursive(number, remaining, results):
     if len(remaining) > 0:
         recursive(number + remaining[0], remaining[1:], results)
         recursive(number * remaining[0], remaining[1:], results)
+        recursive(meld_numbers(number, remaining[0]), remaining[1:], results)
     else:
         results.append(number)
         return

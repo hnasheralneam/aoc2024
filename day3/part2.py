@@ -18,10 +18,19 @@ def parse_mul_strings(line):
         parse_mul_call(mul_string)
 
 def parse(line):
-    parts = re.split(r"do(?:n't)?\(\)", line)
-    for i in range(0, len(parts)):
-        if i % 2 == 0:
-            enabled.append(parts[i])
+    while line.find("do()"):
+        splitted = line.split("do()", 1)
+        enabled.append(splitted[0])
+        dont_splitted = splitted[0].split("don't()")
+        if len(dont_splitted) > 1:
+            line = dont_splitted[1]
+        else:
+            line = ""
+    print("done")
+    # parts = re.split(r"do\(\)", line)
+    # for i in range(0, len(parts)):
+    #     if i % 2 == 0:
+    #         enabled.append(parts[i])
 
 
 f = open("day3/input.txt", "r")
@@ -31,4 +40,5 @@ parse(line)
 for section in enabled:
     parse_mul_strings(section)
 
+print(enabled)
 print(answer)
